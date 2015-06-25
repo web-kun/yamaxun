@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	*{
+		margin: 0;
+		padding:0;
+		list-style: none;
+	}
+	img{
+		display: block;
+	}
+	#ul1{
+		position: relative;
+		z-index: 1;
+	}
+	#ul1 li{
+		float: left;
+		width: 150px;
+		height:150px;
+		float: left;
+		text-align: center;
+	}
+	#ul1 li img{
+		width: 140px;
+		height:140px;
+		margin: 5px 0 0 5px;
+	}
+	#wrap{
+		width: 600px;
+		overflow: hidden;
+		height: 150px;
+		margin: 0 auto;
+	}
+	.demo{
+		width: 680px;
+		height: 150px;
+		margin: 100px auto;
+		position: relative;
+	}
+	#left,#right{
+	  display: block;
+	  position: absolute;
+	  background: #f80;
+	  width: 30px;
+	  height: 50px;
+	  z-index: 5;
+	  line-height: 50px;
+	  text-align: center;
+	  color: #fff;
+	  text-decoration: none;
+	}
+	.leftBtn{
+		top: 35px;
+		left: 0;
+	}
+	.rightBtn{
+		top: 35px;
+		right: 0px;
+	}
+</style>
+<body>
+	
+	<div class="demo">
+		<a href="javascript:;" id="left" class="leftBtn"><</a>
+		<a href="javascript:;" id="right" class="rightBtn">></a>
+		<div id="wrap">
+			<ul id="ul1">
+				<li><img src="images/1.jpg" alt="" /></li>
+				<li><img src="images/3.jpg" alt="" /></li>
+				<li><img src="images/4.jpg" alt="" /></li>
+				<li><img src="images/5.jpg" alt="" /></li>
+				<li><img src="images/6.jpg" alt="" /></li>
+				<li><img src="images/7.jpg" alt="" /></li>
+				<li><img src="images/8.jpg" alt="" /></li>
+				<li><img src="images/9.jpg" alt="" /></li>
+				<li><img src="images/10.jpg" alt="" /></li>
+				<li><img src="images/11.jpg" alt="" /></li>
+				<li><img src="images/12.jpg" alt="" /></li>
+				<li><img src="images/13.jpg" alt="" /></li>
+				<li><img src="images/14.jpg" alt="" /></li>
+				<li><img src="images/15.jpg" alt="" /></li>
+				<li><img src="images/16.jpg" alt="" /></li>
+				<li><img src="images/17.jpg" alt="" /></li>
+				<li><img src="images/18.jpg" alt="" /></li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>
+<script>
+	function addEvent( elem, type, fn ){
+		if( elem.addEventListener ){
+			elem.addEventListener( type, fn, false );
+		}else{
+			elem.attachEvent( 'on'+type, function(){
+				fn.call( elem );
+			});
+		}
+	}
+	function setOpacity0( i, len ){
+		for(var i = i; i < len; i++ ){
+			li[i].style.opacity = 0;
+			li[i].style.filter = 'alpha( opacity=0 )';
+		};
+	}
+	var left = document.getElementById('left'),
+		right = document.getElementById('right'),
+		wrap = document.getElementById('wrap'),
+		ul = document.getElementById('ul1'),
+		li = ul.getElementsByTagName('li'),
+		len = li.length,
+		rollingMaxNum = Math.ceil( len / 4 ),
+		index =  0,
+		b = 4,
+		timer = null,
+		k,num,
+		t = len % 4,
+		width = li[0].offsetWidth;
+	
+	ul.style.width = width * len + 'px';
+	
+	addEvent( right, 'click', function(){
+		
+		index++;
+		if( index >= rollingMaxNum ){
+			index = rollingMaxNum;
+			return;
+		}
+		setOpacity0( b, len);
+		ul.style.left = -wrap.offsetWidth * index + 'px';
+
+		if( index >= rollingMaxNum -1 ){
+			num = index * b + t;
+		}else{
+			num = index * b + b;
+		}
+		k = index * b;
+		console.log( index );
+		timer = setInterval( function(){
+			num--;
+			li[num].style.opacity = '1';
+			li[num].style.filter = 'alpha( opacity=100 )';
+			if( num <= k ){
+				clearInterval( timer );
+				return;
+			}
+		},80);
+	});
+
+	addEvent( left, 'click', function(){
+	    index--;
+		if( index < 0 ){
+			index = 0;
+			return;
+		}
+		setOpacity0( 0, len);
+		ul.style.left = -wrap.offsetWidth * index +  'px';
+
+		num = index * b + b;
+		k = index * b;
+
+		timer = setInterval( function(){
+			li[k].style.opacity = '1';
+			li[k].style.filter = 'alpha( opacity=100 )';
+			if( k >= num ){
+				clearInterval( timer );
+				return;
+			}else{
+				k++;
+			}
+		},80);
+	});
+</script>
